@@ -1,57 +1,48 @@
 #!/usr/bin/env python3
 """
-A simple Flask application with internationalization (i18n) support.
+A Basic flask application
 """
-from flask import Flask, request, render_template
+from flask import Flask
+from flask import request
+from flask import render_template
 from flask_babel import Babel
 
 
-class Config:
+class Config(object):
     """
-    Configuration class for the Flask application.
-
-    This class defines the supported languages and sets the default locale
-    and timezone for the application.
+    Application configuration class
     """
-    LANGUAGES = ['en', 'fr']  # Supported languages
-    BABEL_DEFAULT_LOCALE = 'en'  # Default language
-    BABEL_DEFAULT_TIMEZONE = 'UTC'  # Default timezone
+    LANGUAGES = ['en', 'fr']
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
 
 
-# Create an instance of the Flask application
+# Instantiate the application object
 app = Flask(__name__)
-app.config.from_object(Config)  # Load configuration from the Config class
+app.config.from_object(Config)
 
-# Initialize Babel for language translations
+# Wrap the application with Babel
 babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale() -> str:
     """
-    Determines the best match for the user's.
-
-    This function checks the request's accept_languages and returns the
-    best match based on the configured supported languages. It also checks
-    if the request contains a locale parameter.
+    Gets locale from request object
     """
-    # Check for the locale parameter in the request
-    locale = request.args.get('locale')
-    if locale in app.config['LANGUAGES']:
-        return locale  # Return the forced locale if it's valid
-
+    locale = request.args.get('locale', '').strip()
+    if locale and locale in Config.LANGUAGES:
+        return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/', strict_slashes=False)
 def index() -> str:
     """
-    Renders the index page with an HTML template.
-
-    The index page displays a simple welcome message.
+    Renders a basic html template
     """
     return render_template('4-index.html')
 
 
 if __name__ == '__main__':
-    app.run()  # Run the Flask application
+    app.run()
