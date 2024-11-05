@@ -2,8 +2,11 @@
 """
 A Basic flask application with user mock login
 """
-from flask import Flask, request, render_template, g
-from flask_babel import Babel, _
+
+from flask import Flask
+from flask import g, request
+from flask import render_template
+from flask_babel import Babel
 
 # Mock user data
 users = {
