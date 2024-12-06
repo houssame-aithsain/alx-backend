@@ -31,16 +31,16 @@ jobs.forEach((jobData) => {
 
   // Track job progress
   job.on('progress', (progress) => {
-    console.log(`Notification job ${job.id} ${progress}% complete`);
+    console.log(`Notification job #${job.id} ${progress}% complete`);
   });
 
   // Log job completion
   job.on('complete', () => {
-    console.log(`Notification job ${job.id} completed`);
+    console.log(`Notification job #${job.id} completed`);
   });
 
   // Log job failure
   job.on('failed', (errorMessage) => {
-    console.log(`Notification job ${job.id} failed: ${errorMessage}`);
+    console.log(`Notification job #${job.id} failed: ${errorMessage}`);
   });
 });
